@@ -1,4 +1,4 @@
-export type answerMessage = {
+export type AnswerMessage = {
   message?: string,
   error?: string
 }

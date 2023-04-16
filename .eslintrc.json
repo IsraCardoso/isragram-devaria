@@ -1,3 +1,9 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": ["next/core-web-vitals"],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "rules":{
+    "max-len": [1, { "code": 80 }]
+  }
 }
