@@ -1,10 +1,10 @@
 import type { NextApiRequest, NextApiResponse, NextApiHandler } from "next";
 import mongoose from "mongoose";
-import type { AnswerMessage } from "@/types/AnswerMessage";
+import type { GeneralRes } from "@/types/GeneralRes";
 
 const mongoMiddleware =
   (handler: NextApiHandler) =>
-  async (req: NextApiRequest, res: NextApiResponse<AnswerMessage>) => {
+  async (req: NextApiRequest, res: NextApiResponse<GeneralRes>) => {
     //verify if mongoose is connected => send to next middleware or endpoint
     if (mongoose.connections[0].readyState) {
       return handler(req, res);

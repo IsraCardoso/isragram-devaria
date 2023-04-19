@@ -1,6 +1,6 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import type { RegisteringReq } from "@/types/RegisteringReq";
-import type { AnswerMessage } from "@/types/AnswerMessage";
+import type { GeneralRes } from "@/types/GeneralRes";
 import { UserModel } from "@/models/UserModel";
 import mongoMiddleware from "@/middlewares/mongoMiddleware";
 import mongoose from "mongoose";
@@ -9,7 +9,7 @@ import md5 from "md5";
 
 const registerHandler: NextApiHandler = async (
   req: NextApiRequest,
-  res: NextApiResponse<AnswerMessage>
+  res: NextApiResponse<GeneralRes>
 ) => {
   if (req.method === "POST") {
     let user = req.body as RegisteringReq;
