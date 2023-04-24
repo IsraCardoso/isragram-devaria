@@ -1,4 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import mongoMiddleware from "@/middlewares/mongoMiddleware";
 import type { GeneralRes } from "@/types/GeneralRes";
 import { UserModel } from "@/models/UserModel";
@@ -6,7 +6,7 @@ import md5 from "md5";
 import jwt from "jsonwebtoken";
 import { LoginRes } from "@/types/LoginRes";
 
-const loginHandler = async (
+const loginHandler :NextApiHandler = async (
   req: NextApiRequest,
   res: NextApiResponse<GeneralRes | LoginRes>
 ) => {
