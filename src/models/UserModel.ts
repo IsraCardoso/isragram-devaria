@@ -5,9 +5,9 @@ const UserSchema = new Schema({
   email: { type: String, required: true },
   password: { type: String, required: true },
   avatar: { type: String, required: false },
-  FollowersCount: { type: Number, default: 0 },
-  FollowingCount: { type: Number, default: 0 },
-  PostsCount: { type: Number, default: 0 },
+  followersCount: { type: Number, default: 0 },
+  followingCount: { type: Number, default: 0 },
+  postsCount: { type: Number, default: 0 },
 });
 
 //verify if the table already exists; if not, create it

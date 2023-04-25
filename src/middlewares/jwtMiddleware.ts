@@ -28,7 +28,7 @@ const jwtMiddleware =
           return res.status(401).json({ error: "Token inválido" });
         }
         //if the request doesn't have a query object, create it
-        //=> and add the userId
+        //=> and add the userId to the query object
         if (!req.query) {
           req.query = {};
         }
