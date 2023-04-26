@@ -43,6 +43,11 @@ const postHandler = nc()
         data: new Date(),
       };
 
+      user.posts++;
+      await UserModel.findByIdAndUpdate({_id : user._id}, user);
+      await PostModel.create(post);
+
+
       return res.status(200).json({ message: "Post criado com sucesso" });
     } catch (error) {
       console.log(error);
