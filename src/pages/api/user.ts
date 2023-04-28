@@ -15,7 +15,7 @@ const userHandler = nc()
       if (!user) {
         return res.status(400).json({ error: "Usuário não encontrado" });
       }
-      user.password = null;
+      user.password = undefined;
       return res.status(200).json(user);
     } catch (error) {
       console.log(error);

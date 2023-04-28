@@ -23,7 +23,7 @@ const registerHandler = nc()
       if (req.method === "POST") {
         let user = req.body as RegisteringReq;
         if (!user.name || user.name.length < 3) {
-          return res.status(400).json({ error: "Nome inválido" });
+          return res.status(400).json({ error: "Nome completo inválido" });
         }
         if (
           !user.email ||
@@ -41,21 +41,40 @@ const registerHandler = nc()
         if (sameEmailUsers.length > 0) {
           return res.status(400).json({ error: "Email já cadastrado" });
         }
+        //validate if the user is unique by comparing username
+        if (!user.username || user.username.length < 5) {
+          return res.status(400).json({ error: "Nome de usuário inválido" });
+        }
+        const sameNameUsers = await UserModel.find({ username: user.username });
+        if (sameNameUsers.length > 0) {
+          return res.status(400).json({
+            error: "Nome de usuário já cadastrado, favor escolha outro",
+          });
+        }
+        const usernameRegex = /^[a-z0-9._]+$/;
+        if (!usernameRegex.test(user.username)) {
+          return res.status(400).json({
+            error:
+              "Nome de usuário inválido, favor escolha um nome de usuário" +
+              " com apenas letras minúsculas, números, ponto e underline",
+          });
 
-        //send image to cosmic
-        const image = await uploadToCosmic(req);
+          //send image to cosmic
+          const image = await uploadToCosmic(req);
 
-        //save to database
-        const newUser = {
-          name: user.name,
-          email: user.email,
-          password: md5(user.password),
-          avatar: image?.media?.url,
-        };
-        await UserModel.create(newUser);
-        return res
-          .status(200)
-          .json({ message: "Usuário cadastrado com sucesso" });
+          //save to database
+          const newUser = {
+            name: user.name,
+            username: user.username,
+            email: user.email,
+            password: md5(user.password),
+            avatar: image?.media?.url,
+          };
+          await UserModel.create(newUser);
+          return res
+            .status(200)
+            .json({ message: "Usuário cadastrado com sucesso" });
+        }
       }
     } catch (e: any) {
       console.log(e);
