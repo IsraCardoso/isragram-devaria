@@ -12,7 +12,7 @@ const feedHandler = async (req: NextApiRequest, res: NextApiResponse) => {
         if (!user) {
           return res.status(400).json({ erro: "Usuario nao encontrado" });
         }
-        const feed = await PostModel.find({ idUsuario: user._id }).sort({
+        const feed = await PostModel.find({ userId: user._id }).sort({
           data: -1,
         });
 

@@ -58,23 +58,22 @@ const registerHandler = nc()
               "Nome de usuário inválido, favor escolha um nome de usuário" +
               " com apenas letras minúsculas, números, ponto e underline",
           });
-
-          //send image to cosmic
-          const image = await uploadToCosmic(req);
-
-          //save to database
-          const newUser = {
-            name: user.name,
-            username: user.username,
-            email: user.email,
-            password: md5(user.password),
-            avatar: image?.media?.url,
-          };
-          await UserModel.create(newUser);
-          return res
-            .status(200)
-            .json({ message: "Usuário cadastrado com sucesso" });
         }
+        //send image to cosmic
+        const image = await uploadToCosmic(req);
+
+        //save to database
+        const newUser = {
+          name: user.name,
+          username: user.username,
+          email: user.email,
+          password: md5(user.password),
+          avatar: image?.media?.url,
+        };
+        await UserModel.create(newUser);
+        return res
+          .status(200)
+          .json({ message: "Usuário cadastrado com sucesso" });
       }
     } catch (e: any) {
       console.log(e);
