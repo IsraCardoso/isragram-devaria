@@ -1,4 +1,4 @@
-import type { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 import { PostModel } from "@/models/PostModel";
 import { UserModel } from "@/models/UserModel";
 import jwtMiddleware from "@/middlewares/jwtMiddleware";
