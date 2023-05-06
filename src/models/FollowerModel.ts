@@ -1,9 +1,15 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema, Document } from "mongoose";
 
-const FollowerSchema = new Schema({
+export interface IFollower extends Document {
+  userId: string;
+  followedUserId: string;
+}
+
+const FollowerSchema: Schema = new Schema({
   userId: { type: String, required: true },
   followedUserId: { type: String, required: true },
 });
 
 export const FollowerModel =
-  mongoose.models.followers || mongoose.model("followers", FollowerSchema);
+  mongoose.models.followers ||
+  mongoose.model<IFollower>("followers", FollowerSchema);

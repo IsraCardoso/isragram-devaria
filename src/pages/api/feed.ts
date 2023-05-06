@@ -1,12 +1,14 @@
 import jwtMiddleware from "@/middlewares/jwtMiddleware";
 import mongoMiddleware from "@/middlewares/mongoMiddleware";
+import { FollowerModel, IFollower } from "@/models/FollowerModel";
 import { PostModel } from "@/models/PostModel";
 import { UserModel } from "@/models/UserModel";
 import type { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 
 const feedHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    if (req.method === "GET") {
+    if (req?.method === "GET") {
+      //specifc user´s feed
       if (req?.query?.id) {
         const user = await UserModel.findById(req?.query?.id);
         if (!user) {
@@ -18,16 +20,24 @@ const feedHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         return res.status(200).json(feed);
       } else {
-        const { userId } = req.query;
-        console.log(userId);
-        const user = await UserModel.findById(userId);
-        if (!user) {
+        //general feed (home)
+        const { userId } = req?.query;
+        const activeUser = await UserModel.findById(userId);
+        if (!activeUser) {
           return res.status(400).json({ error: "Usuário não encontrado" });
         }
-        const feed = await PostModel.find({ userId: userId }).sort({
-          data: -1,
+        const ActiveUserFollows: IFollower[] = await FollowerModel.find({
+          userId: userId,
         });
-        return res.status(200).json(feed);
+        const ActiveUserFollowsIds = ActiveUserFollows.map((followedUsers) => {
+          return followedUsers.followedUserId;
+        });
+        console.log(ActiveUserFollowsIds);
+        const posts = await PostModel.find({
+          $or: [{ userId: userId }, { userId: ActiveUserFollowsIds }],
+        }).sort({ data: -1 });
+
+        return res.status(200).json(posts);
       }
     }
     return res.status(405).json({ error: "Método não permitido" });

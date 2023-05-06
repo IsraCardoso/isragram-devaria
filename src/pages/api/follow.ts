@@ -11,20 +11,31 @@ const followHandler = async (
   res: NextApiResponse<GeneralRes>
 ) => {
   try {
+    //check method
     if (req.method === "PUT") {
       const { userId, id } = req?.query;
       const activeUser = await UserModel.findById(userId);
+      // check if user exists
       if (!activeUser) {
-        return res.status(400).json({ error: "Usuário não encontrado" });
+        return res.status(400).json({ error: "Usuário logado não encontrado" });
       }
+      if (userId === id) {
+        return res.status(400).json({ error: "Não pode seguir a si mesmo" });
+      }
+      // check if user to be followed exists
       const userToBeFollowed = await UserModel.findById(id);
       if (!userToBeFollowed) {
-        return res.status(400).json({ error: "Usuário não encontrado" });
+        return res
+          .status(400)
+          .json({ error: "Usuário a ser seguido não encontrado" });
       }
+      // check if user is already following
       const isFollowing = await FollowerModel.find({
         userId: userId,
         followedUserId: id,
       });
+
+      // if is following, unfollow
       if (isFollowing.length > 0) {
         await FollowerModel.deleteMany({
           userId: userId,
@@ -35,7 +46,9 @@ const followHandler = async (
         userToBeFollowed.followersCount--;
         await UserModel.findByIdAndUpdate({ _id: id }, userToBeFollowed);
         return res.status(200).json({ message: "Deixou de seguir" });
-      } else {
+      }
+      // if is not following, follow
+      else {
         await FollowerModel.create({
           userId: userId,
           followedUserId: id,

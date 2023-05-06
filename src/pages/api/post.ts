@@ -43,7 +43,8 @@ const postHandler = nc()
         data: new Date(),
       };
 
-      user.posts++;
+      user.postsCount++;
+      console.log(user)
       await UserModel.findByIdAndUpdate({_id : user._id}, user);
       await PostModel.create(post);
 

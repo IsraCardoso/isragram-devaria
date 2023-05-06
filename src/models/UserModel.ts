@@ -1,5 +1,16 @@
 import mongoose, { Schema } from "mongoose";
 
+export interface IUser extends Document {
+  name: string;
+  username: string;
+  email: string;
+  password: string;
+  avatar?: string;
+  followersCount?: number;
+  followingCount?: number;
+  postsCount?: number;
+}
+
 const UserSchema = new Schema({
   name: { type: String, required: true },
   username: { type: String, required: true, unique: true },
@@ -14,4 +25,5 @@ const UserSchema = new Schema({
 //verify if the table already exists; if not, create it
 //UserModel is like the table in relational databases
 export const UserModel =
-  mongoose.models.users || mongoose.model("users", UserSchema);
+  mongoose.models.users || mongoose.model<IUser>("users", UserSchema);
+
