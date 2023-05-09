@@ -32,12 +32,22 @@ const feedHandler = async (req: NextApiRequest, res: NextApiResponse) => {
         const ActiveUserFollowsIds = ActiveUserFollows.map((followedUsers) => {
           return followedUsers.followedUserId;
         });
-        console.log(ActiveUserFollowsIds);
         const posts = await PostModel.find({
           $or: [{ userId: userId }, { userId: ActiveUserFollowsIds }],
         }).sort({ data: -1 });
+        const postsWithUser = [];
+        for (const post of posts) {
+          const postUser = await UserModel.findById(post.userId);
+          if (postUser) {
+            const finalPost = {
+              ...post._doc,
+              user: { username: postUser.username, avatar: postUser.avatar },
+            };
+            postsWithUser.push(finalPost);
+          }
+        }
 
-        return res.status(200).json(posts);
+        return res.status(200).json(postsWithUser);
       }
     }
     return res.status(405).json({ error: "Método não permitido" });
