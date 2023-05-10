@@ -1,10 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { PostModel } from "@/models/PostModel";
-import { UserModel } from "@/models/UserModel";
-import jwtMiddleware from "@/middlewares/jwtMiddleware";
-import mongoMiddleware from "@/middlewares/mongoMiddleware";
-import { GeneralRes } from "@/types/GeneralRes";
-import { FollowerModel } from "@/models/FollowerModel";
+import { PostModel } from "../../models/PostModel";
+import { UserModel } from "../../models/UserModel";
+import jwtMiddleware from "../../middlewares/jwtMiddleware";
+import mongoMiddleware from "../../middlewares/mongoMiddleware";
+import { GeneralRes } from "../../types/GeneralRes";
+import { FollowerModel } from "../../models/FollowerModel";
+import corsPolicy from "../../middlewares/corsPolicy";
 
 const followHandler = async (
   req: NextApiRequest,
@@ -67,4 +68,4 @@ const followHandler = async (
   }
 };
 
-export default jwtMiddleware(mongoMiddleware(followHandler));
+export default corsPolicy(jwtMiddleware(mongoMiddleware(followHandler)));

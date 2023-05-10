@@ -1,8 +1,9 @@
-import jwtMiddleware from "@/middlewares/jwtMiddleware";
-import mongoMiddleware from "@/middlewares/mongoMiddleware";
-import { FollowerModel, IFollower } from "@/models/FollowerModel";
-import { PostModel } from "@/models/PostModel";
-import { UserModel } from "@/models/UserModel";
+import corsPolicy from "../../middlewares/corsPolicy";
+import jwtMiddleware from "../../middlewares/jwtMiddleware";
+import mongoMiddleware from "../../middlewares/mongoMiddleware";
+import { FollowerModel, IFollower } from "../../models/FollowerModel";
+import { PostModel } from "../../models/PostModel";
+import { UserModel } from "../../models/UserModel";
 import type { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 
 const feedHandler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -57,4 +58,4 @@ const feedHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-export default jwtMiddleware(mongoMiddleware(feedHandler));
+export default corsPolicy(jwtMiddleware(mongoMiddleware(feedHandler)));

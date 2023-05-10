@@ -1,14 +1,15 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import type { RegisteringReq } from "@/types/RegisteringReq";
-import type { GeneralRes } from "@/types/GeneralRes";
-import mongoMiddleware from "@/middlewares/mongoMiddleware";
+import type { RegisteringReq } from "../../types/RegisteringReq";
+import type { GeneralRes } from "../../types/GeneralRes";
+import mongoMiddleware from "../../middlewares/mongoMiddleware";
 import mongoose from "mongoose";
 import md5 from "md5";
-import { uploadToCosmic, upload } from "@/services/uploadToCosmic";
+import { uploadToCosmic, upload } from "../../services/uploadToCosmic";
 import nc from "next-connect";
-import jwtMiddleware from "@/middlewares/jwtMiddleware";
-import { PostModel } from "@/models/PostModel";
-import { UserModel } from "@/models/UserModel";
+import jwtMiddleware from "../../middlewares/jwtMiddleware";
+import { PostModel } from "../../models/PostModel";
+import { UserModel } from "../../models/UserModel";
+import corsPolicy from "../../middlewares/corsPolicy";
 
 const postHandler = nc()
   .use(upload.single("file"))
@@ -62,4 +63,4 @@ export const config = {
   },
 };
 
-export default jwtMiddleware(mongoMiddleware(postHandler));
+export default corsPolicy(jwtMiddleware(mongoMiddleware(postHandler)));

@@ -1,10 +1,11 @@
 import type { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import mongoMiddleware from "@/middlewares/mongoMiddleware";
-import type { GeneralRes } from "@/types/GeneralRes";
-import { UserModel } from "@/models/UserModel";
+import mongoMiddleware from "../../middlewares/mongoMiddleware";
+import type { GeneralRes } from "../../types/GeneralRes";
+import { UserModel } from "../../models/UserModel";
 import md5 from "md5";
 import jwt from "jsonwebtoken";
-import { LoginRes } from "@/types/LoginRes";
+import { LoginRes } from "../../types/LoginRes";
+import corsPolicy from "../../middlewares/corsPolicy";
 
 const loginHandler :NextApiHandler = async (
   req: NextApiRequest,
@@ -41,4 +42,4 @@ const loginHandler :NextApiHandler = async (
   return res.status(405).json({ error: "Método informado não é válido" });
 };
 
-export default mongoMiddleware(loginHandler);
+export default corsPolicy(mongoMiddleware(loginHandler));

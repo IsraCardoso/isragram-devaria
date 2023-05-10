@@ -1,10 +1,11 @@
 import type { NextApiResponse, NextApiRequest } from "next";
-import type { GeneralRes } from "@/types/GeneralRes";
-import jwtMiddleware from "@/middlewares/jwtMiddleware";
-import mongoMiddleware from "@/middlewares/mongoMiddleware";
-import { UserModel } from "@/models/UserModel";
+import type { GeneralRes } from "../../types/GeneralRes";
+import jwtMiddleware from "../../middlewares/jwtMiddleware";
+import mongoMiddleware from "../../middlewares/mongoMiddleware";
+import { UserModel } from "../../models/UserModel";
 import nc from "next-connect";
-import { uploadToCosmic, upload } from "@/services/uploadToCosmic";
+import { uploadToCosmic, upload } from "../../services/uploadToCosmic";
+import corsPolicy from "../../middlewares/corsPolicy";
 
 const userHandler = nc()
   .use(upload.single("file"))
@@ -56,4 +57,4 @@ export const config = {
   },
 };
 
-export default jwtMiddleware(mongoMiddleware(userHandler));
+export default corsPolicy(jwtMiddleware(mongoMiddleware(userHandler)));

@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse, NextApiHandler } from "next";
 import mongoose from "mongoose";
-import type { GeneralRes } from "@/types/GeneralRes";
+import type { GeneralRes } from "../types/GeneralRes";
 
 const mongoMiddleware =
   (handler: NextApiHandler) =>

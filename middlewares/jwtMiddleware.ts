@@ -1,5 +1,5 @@
 import type { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import type { GeneralRes } from "@/types/GeneralRes";
+import type { GeneralRes } from "../types/GeneralRes";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
 const jwtMiddleware =

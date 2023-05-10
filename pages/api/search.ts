@@ -1,7 +1,8 @@
-import jwtMiddleware from "@/middlewares/jwtMiddleware";
-import mongoMiddleware from "@/middlewares/mongoMiddleware";
-import { UserModel } from "@/models/UserModel";
-import { GeneralRes } from "@/types/GeneralRes";
+import corsPolicy from "../../middlewares/corsPolicy";
+import jwtMiddleware from "../../middlewares/jwtMiddleware";
+import mongoMiddleware from "../../middlewares/mongoMiddleware";
+import { UserModel } from "../../models/UserModel";
+import { GeneralRes } from "../../types/GeneralRes";
 import { NextApiRequest, NextApiResponse } from "next";
 import nc from "next-connect";
 
@@ -35,4 +36,4 @@ const searchHandler = nc().get(
   }
 );
 
-export default jwtMiddleware(mongoMiddleware(searchHandler));
+export default corsPolicy(jwtMiddleware(mongoMiddleware(searchHandler)));

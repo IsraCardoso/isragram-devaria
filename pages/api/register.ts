@@ -1,12 +1,13 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import type { RegisteringReq } from "@/types/RegisteringReq";
-import type { GeneralRes } from "@/types/GeneralRes";
-import { UserModel } from "@/models/UserModel";
-import mongoMiddleware from "@/middlewares/mongoMiddleware";
+import type { RegisteringReq } from "../../types/RegisteringReq";
+import type { GeneralRes } from "../../types/GeneralRes";
+import { UserModel } from "../../models/UserModel";
+import mongoMiddleware from "../../middlewares/mongoMiddleware";
 import mongoose from "mongoose";
 import md5 from "md5";
-import { uploadToCosmic, upload } from "@/services/uploadToCosmic";
+import { uploadToCosmic, upload } from "../../services/uploadToCosmic";
 import nc from "next-connect";
+import corsPolicy from "../../middlewares/corsPolicy";
 
 const registerHandler = nc()
   // middleware to check HTTP method and send 405 for all methods except POST
@@ -87,4 +88,4 @@ export const config = {
   },
 };
 
-export default mongoMiddleware(registerHandler);
+export default corsPolicy(mongoMiddleware(registerHandler));

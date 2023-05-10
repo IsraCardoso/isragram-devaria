@@ -1,9 +1,10 @@
 import type { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import type { GeneralRes } from "@/types/GeneralRes";
-import jwtMiddleware from "@/middlewares/jwtMiddleware";
-import mongoMiddleware from "@/middlewares/mongoMiddleware";
-import { UserModel } from "@/models/UserModel";
-import { PostModel } from "@/models/PostModel";
+import type { GeneralRes } from "../../types/GeneralRes";
+import jwtMiddleware from "../../middlewares/jwtMiddleware";
+import mongoMiddleware from "../../middlewares/mongoMiddleware";
+import { UserModel } from "../../models/UserModel";
+import { PostModel } from "../../models/PostModel";
+import corsPolicy from "../../middlewares/corsPolicy";
 
 const commentHandler = async (
   req: NextApiRequest,
@@ -43,4 +44,4 @@ const commentHandler = async (
   }
 };
 
-export default jwtMiddleware(mongoMiddleware(commentHandler));
+export default corsPolicy(jwtMiddleware(mongoMiddleware(commentHandler)));
